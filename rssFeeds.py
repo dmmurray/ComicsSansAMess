@@ -1,14 +1,44 @@
 import feedparser
+import os.path
 
-comics = ["http://www.questionablecontent.net/QCRSS.xml",
-"http://thearchipelago.smackjeeves.com/rss/",
-"http://www.egscomics.com/rss.php",
-"http://earthsongsaga.com/feed.xml"]
+COMICS_FILE = "rss_comics.txt"
 
-for comic in comics:
+def getComicContent(rssFeedURL):
 	entries = []
-	feed = feedparser.parse( comic )
-	print feed["items"]
+	feed = feedparser.parse( rssFeedURL )
+	entries.extend(feed["items"])
+	return entries
 
-	print feed["channel"]["title"]
+# adds a comic to the comic doc
+def addComic(rssFeedURL):
+	target = open(COMICS_FILE, 'a')
+	target.write(rssFeedURL + "\n")
+	target.close()
 
+def removeComic(rssFeedURL):
+	target = open(COMICS_FILE, 'r')
+	lines = target.readlines()
+	target.close()
+	target = open(COMICS_FILE, 'w');
+	for line in lines:
+		if line != rssFeedURL + "\n":
+			target.write(line)
+	target.close()
+
+def getAllComicContent():
+	if (not os.path.isfile(COMICS_FILE)):
+		target = open(COMICS_FILE, 'w')
+		target.close()
+	target = open(COMICS_FILE, 'r')
+	line = target.readline()
+	while line:
+		# pass the comic content to caller somehow...
+		print getComicContent(line)
+		line = target.readline()
+	target.close()
+
+def main():
+	print "doing nothing"
+
+if __name__ == "__main__":
+	main()

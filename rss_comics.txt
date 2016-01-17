@@ -1,0 +1,5 @@
+http://www.questionablecontent.net/QCRSS.xml
+http://thearchipelago.smackjeeves.com/rss/
+http://earthsongsaga.com/feed.xml
+http://www.gunnerkrigg.com/rss.xml
+http://www.egscomics.com/rss.php
