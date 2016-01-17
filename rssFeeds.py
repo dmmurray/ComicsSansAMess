@@ -9,6 +9,10 @@ def getComicContent(rssFeedURL):
 	entries.extend(feed["items"])
 	return entries
 
+def getComicTitle(rssFeedURL):
+	feed = feedparser.parse(rssFeedURL)
+	return feed["channel"]["title"]
+
 # adds a comic to the comic doc
 def addComic(rssFeedURL):
 	target = open(COMICS_FILE, 'a')
@@ -30,15 +34,18 @@ def getAllComicContent():
 		target = open(COMICS_FILE, 'w')
 		target.close()
 	target = open(COMICS_FILE, 'r')
+	webpage = open("test.html", 'w');
 	line = target.readline()
 	while line:
 		# pass the comic content to caller somehow...
-		print getComicContent(line)
+		webpage.write("\n" + getComicTitle(line) + "\n")
+		webpage.write(getComicContent(line)[0]["summary_detail"]["value"] + "\n\n--------------------------------")
 		line = target.readline()
+	webpage.close()
 	target.close()
 
 def main():
-	print "doing nothing"
+	addComic("http://www.alicegrove.com/rss")
 
 if __name__ == "__main__":
-	main()
+	getAllComicContent()
